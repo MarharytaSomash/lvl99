@@ -1,14 +1,13 @@
-import { combineReducers } from "redux";
-import { useDispatch } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import userProfileSlice from "./userProfileSlice";
-import { createStore, AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({
-    userProfile: userProfileSlice,
+const store = configureStore({
+    reducer: {
+        userProfile: userProfileSlice,
+    },
+    devTools: process.env.NODE_ENV !== "production",
 });
 
-export const store = createStore(rootReducer);
-export default rootReducer;
+export default store;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = ThunkDispatch<RootState, undefined, AnyAction>;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export type AppDispatch = typeof store.dispatch;
